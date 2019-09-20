@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ExpressionEvaluator</string>
+    <string name="app_name" translatable="false">ExpressionEvaluator</string>
+    <string name="compute">Compute</string>
 </resources>
