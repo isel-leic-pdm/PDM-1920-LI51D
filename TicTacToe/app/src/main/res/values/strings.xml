@@ -3,4 +3,7 @@
     <string name="startButtonText">Start</string>
     <string name="forfeitButton">Forfeit</string>
     <string name="initialMessage">Press Start to begin play</string>
+    <string name="turnMessage">Turn: %s</string>
+    <string name="winnerMessage">The winner is %s</string>
+    <string name="tiedMessage">No one won</string>
 </resources>

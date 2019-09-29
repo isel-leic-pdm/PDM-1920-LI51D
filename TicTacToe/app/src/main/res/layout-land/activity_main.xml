@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <TableLayout
+        android:id="@+id/board"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="@dimen/boardPadding">

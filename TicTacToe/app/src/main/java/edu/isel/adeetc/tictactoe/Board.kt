@@ -1,18 +1,21 @@
 package edu.isel.adeetc.tictactoe
 
+import android.os.Parcel
+import android.os.Parcelable
+
 private const val BOARD_SIDE = 3
 private const val MAX_MOVES = BOARD_SIDE * BOARD_SIDE
 
 /**
  * The Tic-Tac-Toe game board. It represents the game's state at any given instant.
  */
-class Board {
+class Board(private val board: Array<Array<Player?>>) : Parcelable {
 
-    private val board: Array<Array<Player?>> = arrayOf(
+    constructor(): this(arrayOf(
         arrayOfNulls(BOARD_SIDE),
         arrayOfNulls(BOARD_SIDE),
         arrayOfNulls(BOARD_SIDE)
-    )
+    ))
 
     /**
      * The number of moves made
@@ -40,6 +43,7 @@ class Board {
      * @param   [y] the vertical coordinate in the interval [0..2]
      * @param   [move] the [Player] instance that made the move
      * @return  the current instance, for fluent use
+     * @throws  [IllegalArgumentException] if the specified position is not valid
      * @throws  [IllegalStateException] if the specified position is already in use
      */
     operator fun set(x: Int, y: Int, move: Player): Board {
@@ -85,4 +89,41 @@ class Board {
      * Gets a boolean value indicating whether the game is tied or not
      */
     fun isTied() = moves == MAX_MOVES && getWinner() == null
+
+    /**
+     * Checks whether the given position has a move.
+     * @param   [x] the horizontal coordinate in the interval [0..2]
+     * @param   [y] the vertical coordinate in the interval [0..2]
+     * @throws  [IllegalArgumentException] if the specified position is not valid
+     * @throws  [IllegalStateException] if the specified position is already in use
+     */
+    fun hasMoveAt(x: Int, y: Int) = get(x, y) !=  null
+
+    // Parcelable contract
+
+    constructor(parcel: Parcel) : this() {
+        parcel.readTypedArray(board[0], Player.CREATOR)
+        parcel.readTypedArray(board[1], Player.CREATOR)
+        parcel.readTypedArray(board[2], Player.CREATOR)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeTypedArray(board[0], flags)
+        parcel.writeTypedArray(board[1], flags)
+        parcel.writeTypedArray(board[2], flags)
+        parcel.writeInt(moves)
+    }
+
+    override fun describeContents() = 0
+
+
+    companion object CREATOR : Parcelable.Creator<Board> {
+        override fun createFromParcel(parcel: Parcel): Board {
+            return Board(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Board?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
