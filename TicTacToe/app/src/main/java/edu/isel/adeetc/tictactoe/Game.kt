@@ -1,25 +1,16 @@
 package edu.isel.adeetc.tictactoe
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 
 /**
  * The Tic-Tac-Toe full game state.
  */
+@Parcelize
 class Game(private val board: Board = Board(),
-           firstToMove: Player) : Parcelable {
-
-    /**
-     * The next player to move
-     */
-    var turn: Player = firstToMove
-        private set
-
-    /**
-     * The winner, if one exists
-     */
-    var winner: Player? = null
-        private set
+           private var turn: Player = Player.P1,
+           private var winner: Player? = null) : Parcelable {
 
     /**
      * Gets the move at the given position.
@@ -58,31 +49,17 @@ class Game(private val board: Board = Board(),
         winner = if (turn == Player.P1) Player.P2 else Player.P1
     }
 
-    // Parcelable contract
+    /**
+     * The next player to make a move
+     */
+    @IgnoredOnParcel
+    val nextTurn: Player
+        get() = turn
 
-    constructor(parcel: Parcel) : this(
-        parcel.readParcelable(Board::class.java.classLoader) ?: Board(),
-        parcel.readParcelable(Player::class.java.classLoader) ?: Player.P1) {
-
-        winner = parcel.readParcelable(Player::class.java.classLoader)
-    }
-
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(board, flags)
-        parcel.writeParcelable(turn, flags)
-        parcel.writeParcelable(winner, flags)
-    }
-
-    override fun describeContents() = 0
-
-    companion object CREATOR : Parcelable.Creator<Game> {
-        override fun createFromParcel(parcel: Parcel): Game {
-            return Game(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Game?> {
-            return arrayOfNulls(size)
-        }
-    }
+    /**
+     * The game winner, or null if no one has won yet
+     */
+    @IgnoredOnParcel
+    val theWinner: Player?
+        get() = winner
 }

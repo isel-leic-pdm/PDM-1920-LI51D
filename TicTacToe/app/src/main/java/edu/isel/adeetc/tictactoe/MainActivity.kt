@@ -1,6 +1,7 @@
 package edu.isel.adeetc.tictactoe
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         val currGame = game ?: return
 
-        val winner = currGame.winner
+        val winner = currGame.theWinner
         if (winner == null) {
             if (!currGame.isTied()) {
-                messageBoard.text = getString(R.string.turnMessage, currGame.turn)
+                messageBoard.text = getString(R.string.turnMessage, currGame.nextTurn)
                 startButton.isEnabled = false
                 forfeitButton.isEnabled = true
             }
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         else {
             startButton.isEnabled = true
             forfeitButton.isEnabled = false
-            messageBoard.text = getString(R.string.winnerMessage, winner.id)
+            messageBoard.text = getString(R.string.winnerMessage, winner)
         }
     }
 
@@ -56,13 +57,13 @@ class MainActivity : AppCompatActivity() {
 
     fun handleMove(view: View) {
 
-        if (game == null || game?.winner != null)
+        if (game == null || game?.theWinner != null)
             return
 
         val cell = view as CellView
-        val turn = game?.doMoveAt(cell.row, cell.column) ?: return
+        val played = game?.doMoveAt(cell.row, cell.column) ?: return
 
-        cell.displayMode = getDisplayMode(turn)
+        cell.displayMode = getDisplayMode(played)
         updateUI()
     }
 
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         startButton.setOnClickListener {
-            game = Game(firstToMove = Player.P1)
+            game = Game()
             initBoardView()
         }
 
