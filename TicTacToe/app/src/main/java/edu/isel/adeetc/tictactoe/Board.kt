@@ -84,4 +84,11 @@ class Board(private val board: Array<Array<Player?>>, private var moves: Int = 0
      * Gets a boolean value indicating whether the game is tied or not
      */
     fun isTied() = moves == MAX_MOVES && getWinner() == null
+
+    /**
+     * Gets the number of moves already made.
+     */
+    val moveCount: Int
+        get() = moves
+
 }

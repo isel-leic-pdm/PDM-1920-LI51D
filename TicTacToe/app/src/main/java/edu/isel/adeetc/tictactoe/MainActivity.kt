@@ -1,18 +1,21 @@
 package edu.isel.adeetc.tictactoe
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val GAME_STATE_KEY = "game_state"
 
+/**
+ * The game's main activity. It displays the game board.
+ */
 class MainActivity : AppCompatActivity() {
 
-    private var game: Game? = null
+    private lateinit var game: Game
 
     private fun getDisplayMode(player: Player?) =  when (player) {
         Player.P1 -> CellView.DisplayMode.CROSS
@@ -22,46 +25,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI() {
 
-        val currGame = game ?: return
-
-        val winner = currGame.theWinner
-        if (winner == null) {
-            if (!currGame.isTied()) {
-                messageBoard.text = getString(R.string.turnMessage, currGame.nextTurn)
+        if (game.state == Game.State.FINISHED) {
+            startButton.isEnabled = true
+            forfeitButton.isEnabled = false
+            messageBoard.text =
+                if (game.isTied()) getString(R.string.tiedMessage)
+                else getString(R.string.winnerMessage, game.theWinner)
+        }
+        else {
+            if (game.state == Game.State.STARTED) {
+                messageBoard.text = getString(R.string.turnMessage, game.nextTurn)
                 startButton.isEnabled = false
                 forfeitButton.isEnabled = true
             }
-            else {
-                messageBoard.text = getString(R.string.tiedMessage)
-                startButton.isEnabled = true
-                forfeitButton.isEnabled = false
-            }
-        }
-        else {
-            startButton.isEnabled = true
-            forfeitButton.isEnabled = false
-            messageBoard.text = getString(R.string.winnerMessage, winner)
         }
     }
 
     private fun initBoardView() {
-        board.children.forEach { row ->
-            (row as? TableRow)?.children?.forEach {
-                if (it is CellView)
-                    it.displayMode = getDisplayMode(game?.getMoveAt(it.column, it.row))
+
+        if (game.state != Game.State.NOT_STARTED)
+            board.children.forEach { row ->
+                (row as? TableRow)?.children?.forEach {
+                    if (it is CellView)
+                        it.displayMode = getDisplayMode(game.getMoveAt(it.column, it.row))
+                }
             }
-        }
 
         updateUI()
     }
 
     fun handleMove(view: View) {
 
-        if (game == null || game?.theWinner != null)
+        if (game.state != Game.State.STARTED)
             return
 
         val cell = view as CellView
-        val played = game?.doMoveAt(cell.row, cell.column) ?: return
+        val played = game.makeMoveAt(cell.column, cell.row) ?: return
 
         cell.displayMode = getDisplayMode(played)
         updateUI()
@@ -71,24 +70,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState != null) {
-            game = savedInstanceState.getParcelable(GAME_STATE_KEY)
-            initBoardView()
-        }
+        game = ViewModelProviders.of(this)[Game::class.java]
+        initBoardView()
 
         startButton.setOnClickListener {
-            game = Game()
+            game.start(Player.P1)
             initBoardView()
         }
 
         forfeitButton.setOnClickListener {
-            game?.forfeit()
+            game.forfeit()
             updateUI()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(GAME_STATE_KEY, game)
     }
 }
