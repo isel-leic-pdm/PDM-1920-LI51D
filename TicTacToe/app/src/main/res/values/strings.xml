@@ -1,9 +1,21 @@
 <resources>
+    <!-- Application wide -->
     <string name="app_name">TicTacToe</string>
-    <string name="startButtonText">Start</string>
-    <string name="forfeitButton">Forfeit</string>
-    <string name="initialMessage">Press Start to begin play</string>
-    <string name="turnMessage">Turn: %s</string>
-    <string name="winnerMessage">The winner is %s</string>
-    <string name="tiedMessage">No one won</string>
+
+    <!-- Game screen -->
+    <string name="game_start_button_label">Start</string>
+    <string name="game_forfeit_button_label">Forfeit</string>
+    <string name="game_menu_about_label">About</string>
+
+    <string name="game_initial_message">Press Start to begin play</string>
+    <string name="game_turn_message">Turn: %s</string>
+    <string name="game_winner_message">The winner is %s</string>
+    <string name="game_tied_message">No one won</string>
+
+    <!-- About screen -->
+    <string name="about_author_label">By</string>
+    <string name="about_author_name" translatable="false">Paulo Pereira</string>
+    <string name="about_author_linked_in" translatable="false">https://www.linkedin.com/in/palbp/</string>
+    <string name="about_author_photo_description">Photo of the author</string>
+    <string name="about_author_linked_in_description">LinkedIn logo</string>
 </resources>

@@ -1,6 +1,9 @@
 package edu.isel.adeetc.tictactoe
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
@@ -29,12 +32,12 @@ class MainActivity : AppCompatActivity() {
             startButton.isEnabled = true
             forfeitButton.isEnabled = false
             messageBoard.text =
-                if (game.isTied()) getString(R.string.tiedMessage)
-                else getString(R.string.winnerMessage, game.theWinner)
+                if (game.isTied()) getString(R.string.game_tied_message)
+                else getString(R.string.game_winner_message, game.theWinner)
         }
         else {
             if (game.state == Game.State.STARTED) {
-                messageBoard.text = getString(R.string.turnMessage, game.nextTurn)
+                messageBoard.text = getString(R.string.game_turn_message, game.nextTurn)
                 startButton.isEnabled = false
                 forfeitButton.isEnabled = true
             }
@@ -82,5 +85,18 @@ class MainActivity : AppCompatActivity() {
             game.forfeit()
             updateUI()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.about -> {
+            startActivity(Intent(this, AboutActivity::class.java))
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }

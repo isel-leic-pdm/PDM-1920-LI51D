@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="cellPadding">16dp</dimen>
+    <dimen name="game_cell_padding">16dp</dimen>
     <dimen name="boardPadding">32dp</dimen>
     <dimen name="messagePadding">16dp</dimen>
 </resources>
