@@ -1,4 +1,4 @@
-package edu.isel.adeetc.tictactoe
+package edu.isel.adeetc.pdm.tictactoe
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.lifecycle.ViewModelProviders
+import edu.isel.adeetc.pdm.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val GAME_STATE_KEY = "game_state"
@@ -18,9 +18,9 @@ private const val GAME_STATE_KEY = "game_state"
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var game: Game
+    internal lateinit var game: Game
 
-    private fun getDisplayMode(player: Player?) =  when (player) {
+    private fun getDisplayMode(player: Player?) = when (player) {
         Player.P1 -> CellView.DisplayMode.CROSS
         Player.P2 -> CellView.DisplayMode.CIRCLE
         null -> CellView.DisplayMode.NONE
@@ -73,7 +73,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        game = ViewModelProviders.of(this)[Game::class.java]
+        game = getViewModel(GAME_STATE_KEY) {
+            savedInstanceState?.getParcelable(GAME_STATE_KEY) ?: Game()
+        }
         initBoardView()
 
         startButton.setOnClickListener {
@@ -98,5 +100,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (!isChangingConfigurations) {
+            outState.putParcelable(GAME_STATE_KEY, game)
+        }
     }
 }

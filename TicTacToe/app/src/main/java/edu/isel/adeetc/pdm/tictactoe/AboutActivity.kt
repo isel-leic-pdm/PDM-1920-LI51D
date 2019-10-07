@@ -1,4 +1,4 @@
-package edu.isel.adeetc.tictactoe
+package edu.isel.adeetc.pdm.tictactoe
 
 import android.content.Intent
 import android.net.Uri

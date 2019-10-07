@@ -1,12 +1,14 @@
-package edu.isel.adeetc.tictactoe
+package edu.isel.adeetc.pdm.tictactoe
 
+import android.app.Instrumentation
+import android.app.UiAutomation.ROTATION_FREEZE_180
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import org.junit.Test
-import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.junit.runner.RunWith
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -19,6 +21,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("edu.isel.adeetc.tictactoe", appContext.packageName)
+        assertEquals("edu.isel.adeetc.pdm.tictactoe", appContext.packageName)
     }
 }

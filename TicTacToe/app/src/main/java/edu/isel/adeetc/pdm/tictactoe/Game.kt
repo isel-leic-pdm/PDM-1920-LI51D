@@ -1,4 +1,4 @@
-package edu.isel.adeetc.tictactoe
+package edu.isel.adeetc.pdm.tictactoe
 
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
@@ -26,7 +26,8 @@ import kotlinx.android.parcel.Parcelize
 class Game(private var board: Board = Board(),
            private var turn: Player? = null,
            private var winner: Player? = null,
-           private var currState: State = State.NOT_STARTED) : ViewModel(), Parcelable {
+           private var currState: State = State.NOT_STARTED
+) : ViewModel(), Parcelable {
 
     enum class State { NOT_STARTED, STARTED, FINISHED }
 
@@ -54,7 +55,8 @@ class Game(private var board: Board = Board(),
             board[x, y] = playerThatMoved
             turn = if (playerThatMoved == Player.P1) Player.P2 else Player.P1
             winner = board.getWinner()
-            if (winner != null || board.isTied()) currState = State.FINISHED
+            if (winner != null || board.isTied()) currState =
+                State.FINISHED
             playerThatMoved
         }
         else null

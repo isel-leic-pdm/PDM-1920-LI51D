@@ -1,11 +1,10 @@
-package edu.isel.adeetc.tictactoe
+package edu.isel.adeetc.pdm.tictactoe
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import kotlin.math.min
 
@@ -76,12 +75,20 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
     private fun drawFrame(canvas: Canvas) {
         with (canvas) {
             if (row == 1) {
-                drawLine(0.toFloat(), 0.toFloat(), width.toFloat(), 0.toFloat(), OutlineBrush)
-                drawLine(0.toFloat(), height.toFloat(), width.toFloat(), height.toFloat(), OutlineBrush)
+                drawLine(0.toFloat(), 0.toFloat(), width.toFloat(), 0.toFloat(),
+                    OutlineBrush
+                )
+                drawLine(0.toFloat(), height.toFloat(), width.toFloat(), height.toFloat(),
+                    OutlineBrush
+                )
             }
             if (column == 1) {
-                drawLine(0.toFloat(), 0.toFloat(), 0.toFloat(), height.toFloat(), OutlineBrush)
-                drawLine(width.toFloat(), 0.toFloat(), width.toFloat(), height.toFloat(), OutlineBrush)
+                drawLine(0.toFloat(), 0.toFloat(), 0.toFloat(), height.toFloat(),
+                    OutlineBrush
+                )
+                drawLine(width.toFloat(), 0.toFloat(), width.toFloat(), height.toFloat(),
+                    OutlineBrush
+                )
             }
         }
     }
@@ -104,12 +111,18 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
         val marginH = (height - side) / 2
 
         fun drawCircle() {
-            canvas.drawCircle(width.toFloat() / 2, height.toFloat() / 2, side / 2, ContentBrush)
+            canvas.drawCircle(width.toFloat() / 2, height.toFloat() / 2, side / 2,
+                ContentBrush
+            )
         }
 
         fun drawCross() {
-            canvas.drawLine(marginW, marginH, marginW + side, marginH + side, ContentBrush)
-            canvas.drawLine(marginW + side, marginH, marginW, marginH + side, ContentBrush)
+            canvas.drawLine(marginW, marginH, marginW + side, marginH + side,
+                ContentBrush
+            )
+            canvas.drawLine(marginW + side, marginH, marginW, marginH + side,
+                ContentBrush
+            )
         }
 
         when (displayMode) {
@@ -122,7 +135,8 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
     /**
      * The view display mode.
      */
-    var displayMode: DisplayMode = DisplayMode.NONE
+    var displayMode: DisplayMode =
+        DisplayMode.NONE
         set(value) {
             field = value
             invalidate()

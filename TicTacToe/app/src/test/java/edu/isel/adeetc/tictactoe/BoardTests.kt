@@ -1,5 +1,7 @@
 package edu.isel.adeetc.tictactoe
 
+import edu.isel.adeetc.pdm.tictactoe.Board
+import edu.isel.adeetc.pdm.tictactoe.Player
 import org.hamcrest.CoreMatchers.*
 import org.junit.Test
 

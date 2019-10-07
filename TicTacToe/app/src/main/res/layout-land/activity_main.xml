@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity">
+    tools:context="edu.isel.adeetc.pdm.tictactoe.MainActivity">
 
     <TableLayout
         android:id="@+id/board"
@@ -18,19 +18,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="top" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="top" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
@@ -43,19 +43,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="middle" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="middle" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
@@ -68,19 +68,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="bottom" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="bottom" />
 
-            <edu.isel.adeetc.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
