@@ -20,7 +20,8 @@ class ChallengeViewHolder(view: ViewGroup) : RecyclerView.ViewHolder(view) {
     }
 }
 
-class ChallengesListAdapter(val viewModel: ChallengesViewModel) : RecyclerView.Adapter<ChallengeViewHolder>() {
+class ChallengesListAdapter(val viewModel: ChallengesViewModel) :
+    RecyclerView.Adapter<ChallengeViewHolder>() {
 
     override fun onBindViewHolder(holder: ChallengeViewHolder, position: Int) {
         holder.bindTo(viewModel.challenges[position])

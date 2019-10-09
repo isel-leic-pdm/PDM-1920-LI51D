@@ -1,8 +1,11 @@
 package edu.isel.adeetc.pdm.tictactoe.challenges.model
 
+import android.os.Parcelable
 import androidx.lifecycle.ViewModel
+import kotlinx.android.parcel.Parcelize
 
-class ChallengesViewModel : ViewModel() {
+@Parcelize
+class ChallengesViewModel : ViewModel(), Parcelable {
 
     val challenges: List<ChallengeInfo> = listOf(
         ChallengeInfo("Puto Sempre Ligado", "Anda cá que eu conto-te uma história"),
