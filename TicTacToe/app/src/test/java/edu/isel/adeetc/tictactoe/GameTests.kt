@@ -1,7 +1,7 @@
 package edu.isel.adeetc.tictactoe
 
-import edu.isel.adeetc.pdm.tictactoe.Game
-import edu.isel.adeetc.pdm.tictactoe.Player
+import edu.isel.adeetc.pdm.tictactoe.game.model.Game
+import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import org.hamcrest.CoreMatchers.sameInstance
 import org.junit.Assert
 import org.junit.Test

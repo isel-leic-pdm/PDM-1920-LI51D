@@ -4,13 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context="edu.isel.adeetc.pdm.tictactoe.MainActivity">
+    android:orientation="vertical"
+    tools:context="edu.isel.adeetc.pdm.tictactoe.game.MainActivity">
+
+    <TextView
+        android:id="@+id/messageBoard"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/messagePadding"
+        android:text="@string/game_initial_message" />
 
     <TableLayout
         android:id="@+id/board"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="@dimen/boardPadding">
 
         <TableRow
@@ -18,19 +27,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="top" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="top" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
@@ -43,19 +52,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="middle" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="middle" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
@@ -68,19 +77,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="left" app:row="bottom" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
                 app:column="middle" app:row="bottom" />
 
-            <edu.isel.adeetc.pdm.tictactoe.CellView
+            <edu.isel.adeetc.pdm.tictactoe.game.view.CellView
                 android:onClick="handleMove"
                 android:layout_weight="1"
                 android:padding="@dimen/game_cell_padding"
@@ -89,46 +98,27 @@
         </TableRow>
     </TableLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/messageBoard"
-            style="?android:attr/textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="@dimen/messagePadding"
-            android:text="@string/game_initial_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/startButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            android:text="@string/game_start_button_label"
-            app:layout_constraintBottom_toTopOf="@+id/forfeitButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_weight="1"
+            android:text="@string/game_start_button_label" />
 
         <Button
             android:id="@+id/forfeitButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
             android:enabled="false"
-            android:text="@string/game_forfeit_button_label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="@string/game_forfeit_button_label" />
+    </LinearLayout>
 </LinearLayout>

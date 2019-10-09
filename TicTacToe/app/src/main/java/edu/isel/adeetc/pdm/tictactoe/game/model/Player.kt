@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm.tictactoe
+package edu.isel.adeetc.pdm.tictactoe.game.model
 
 import android.os.Parcel
 import android.os.Parcelable

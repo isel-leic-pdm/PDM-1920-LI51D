@@ -18,4 +18,7 @@
     <string name="about_author_linked_in" translatable="false">https://www.linkedin.com/in/palbp/</string>
     <string name="about_author_photo_description">Photo of the author</string>
     <string name="about_author_linked_in_description">LinkedIn logo</string>
+
+    <!-- Game list screen -->
+    <string name="list_create_challenge_button_label">New Challenge</string>
 </resources>

@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm.tictactoe
+package edu.isel.adeetc.pdm.tictactoe.game
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,12 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import edu.isel.adeetc.pdm.getViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import edu.isel.adeetc.pdm.tictactoe.AboutActivity
+import edu.isel.adeetc.pdm.tictactoe.R
+import edu.isel.adeetc.pdm.tictactoe.game.model.Game
+import edu.isel.adeetc.pdm.tictactoe.game.model.Player
+import edu.isel.adeetc.pdm.tictactoe.game.view.CellView
+import kotlinx.android.synthetic.main.activity_game.*
 
 private const val GAME_STATE_KEY = "game_state"
 
@@ -71,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_game)
 
         game = getViewModel(GAME_STATE_KEY) {
             savedInstanceState?.getParcelable(GAME_STATE_KEY) ?: Game()
