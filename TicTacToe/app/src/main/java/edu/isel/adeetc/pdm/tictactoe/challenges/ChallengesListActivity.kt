@@ -11,10 +11,19 @@ import kotlinx.android.synthetic.main.activity_challenges_list.*
 
 private const val CHALLENGES_LIST_KEY = "challenges_list"
 
+/**
+ * The activity used to display the list of existing challenges.
+ */
 class ChallengesListActivity : AppCompatActivity() {
 
+    /**
+     * The associated view model instance
+     */
     private lateinit var challenges: ChallengesViewModel
 
+    /**
+     * Callback method that handles the activity initiation
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_challenges_list)
@@ -29,6 +38,9 @@ class ChallengesListActivity : AppCompatActivity() {
         challengesList.adapter = ChallengesListAdapter(challenges)
     }
 
+    /**
+     * Callback method that handles view state preservation
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (!isChangingConfigurations) {

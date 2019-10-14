@@ -2,13 +2,16 @@ package edu.isel.adeetc.pdm.tictactoe.challenges.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengesViewModel
 
+/**
+ * Represents views (actually, the corresponding holder) that display the information pertaining to
+ * a [ChallengeInfo] instance
+ */
 class ChallengeViewHolder(view: ViewGroup) : RecyclerView.ViewHolder(view) {
 
     private val challengerNameView: TextView = view.findViewById(R.id.challengerName)
@@ -20,6 +23,9 @@ class ChallengeViewHolder(view: ViewGroup) : RecyclerView.ViewHolder(view) {
     }
 }
 
+/**
+ * Adapts [ChallengesViewModel] instances to be displayed in a [RecyclerView]
+ */
 class ChallengesListAdapter(val viewModel: ChallengesViewModel) :
     RecyclerView.Adapter<ChallengeViewHolder>() {
 

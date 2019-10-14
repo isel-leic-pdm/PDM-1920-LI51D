@@ -11,7 +11,9 @@ import kotlinx.android.synthetic.main.activity_about.*
  */
 class AboutActivity : AppCompatActivity() {
 
-
+    /**
+     * Callback method that handles the activity initiation
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
