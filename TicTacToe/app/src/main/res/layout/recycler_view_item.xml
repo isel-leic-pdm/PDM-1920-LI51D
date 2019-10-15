@@ -11,7 +11,7 @@
       android:layout_height="wrap_content"
       tools:text="@tools:sample/full_names" />
   <TextView
-      android:id="@+id/challengerMessage"
+      android:id="@+id/message"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       tools:text="@tools:sample/lorem" />

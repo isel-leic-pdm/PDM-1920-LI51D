@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
      * Callback method that handles menu creation
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_game, menu)
         return true
     }
 

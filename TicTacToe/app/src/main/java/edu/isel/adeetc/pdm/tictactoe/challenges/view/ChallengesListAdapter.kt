@@ -15,11 +15,11 @@ import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengesViewModel
 class ChallengeViewHolder(view: ViewGroup) : RecyclerView.ViewHolder(view) {
 
     private val challengerNameView: TextView = view.findViewById(R.id.challengerName)
-    private val challengerMessageView: TextView = view.findViewById(R.id.challengerMessage)
+    private val challengerMessageView: TextView = view.findViewById(R.id.message)
 
-    fun bindTo(challenge: ChallengeInfo) {
-        challengerNameView.text = challenge.challengerName
-        challengerMessageView.text = challenge.challengerMessage
+    fun bindTo(challenge: ChallengeInfo?) {
+        challengerNameView.text = challenge?.challengerName ?: ""
+        challengerMessageView.text = challenge?.challengerMessage ?: ""
     }
 }
 
@@ -30,10 +30,10 @@ class ChallengesListAdapter(val viewModel: ChallengesViewModel) :
     RecyclerView.Adapter<ChallengeViewHolder>() {
 
     override fun onBindViewHolder(holder: ChallengeViewHolder, position: Int) {
-        holder.bindTo(viewModel.challenges[position])
+        holder.bindTo(viewModel.content.value?.get(position))
     }
 
-    override fun getItemCount(): Int = viewModel.challenges.size
+    override fun getItemCount(): Int = viewModel.content.value?.size ?: 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChallengeViewHolder =
         ChallengeViewHolder(
