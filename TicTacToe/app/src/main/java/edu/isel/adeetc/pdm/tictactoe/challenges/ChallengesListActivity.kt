@@ -16,6 +16,7 @@ import edu.isel.adeetc.pdm.tictactoe.challenges.view.ChallengesListAdapter
 import kotlinx.android.synthetic.main.activity_challenges_list.*
 
 private const val CHALLENGES_LIST_KEY = "challenges_list"
+private const val IS_RECONFIGURING_KEY = "is_reconfiguring_flag"
 private const val CREATE_CODE = 10001
 
 /**
@@ -51,9 +52,12 @@ class ChallengesListActivity : AppCompatActivity() {
         })
 
         // Should we refresh the data?
-        if (savedInstanceState == null || !savedInstanceState.containsKey(CHALLENGES_LIST_KEY)) {
-            // No saved state? Lets fetch list from the server
+        if (savedInstanceState == null || !savedInstanceState.getBoolean(IS_RECONFIGURING_KEY)) {
+            // No saved state? Not a reconfiguration? Lets fetch list from the server
             challenges.updateChallenges(application as TicTacToeApplication)
+        }
+        else {
+            savedInstanceState.remove(IS_RECONFIGURING_KEY)
         }
 
         // Setup ui event handlers
@@ -71,7 +75,10 @@ class ChallengesListActivity : AppCompatActivity() {
      */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (!isChangingConfigurations) {
+        if (isChangingConfigurations) {
+            outState.putBoolean(IS_RECONFIGURING_KEY, true)
+        }
+        else {
             outState.putParcelable(CHALLENGES_LIST_KEY, challenges)
         }
     }
