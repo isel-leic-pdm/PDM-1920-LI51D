@@ -5,7 +5,8 @@ import androidx.annotation.NonNull;
 import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengeInfo;
 
 /**
- * Work around for bug on Android plugin that generates Parcelize implementation
+ * Work around for bug on the Android plugin that is responsible for generating the Parcelize
+ * implementation
  * @see [https://youtrack.jetbrains.com/issue/KT-19853]
  */
 public class CreatorProxy {
