@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".challenges.ChallengesListActivity">
+        <activity android:name=".challenges.list.ChallengesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +30,9 @@
         </activity>
 
         <activity
-            android:name=".challenges.CreateChallengeActivity" />
+            android:name=".challenges.create.CreateChallengeActivity" />
 
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".about.AboutActivity" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm.tictactoe.challenges.model
+package edu.isel.adeetc.pdm.tictactoe.challenges
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

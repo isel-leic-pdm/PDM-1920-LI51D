@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm
+package edu.isel.adeetc.pdm.kotlinx
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel

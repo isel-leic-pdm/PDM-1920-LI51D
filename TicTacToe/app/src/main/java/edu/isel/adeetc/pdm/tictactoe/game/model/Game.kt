@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  * The game is in one of three states: [State.NOT_STARTED], [State.STARTED] and [State.FINISHED]
  *
  * Upon instantiation the game is placed in the [State.NOT_STARTED] state. Subsequent calls to the
- * [reset] method also place the game in the same statE. The transition to the [State.STARTED] is
+ * [reset] method also place the game in the same state. The transition to the [State.STARTED] is
  * then promoted by a call to the [start] method, where the first player to move is specified.
  * The game remains in this state until the game is finished, either because a winner emerged or
  * the game was tied. Either way, the game is placed in the [State.FINISHED] state.

@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm.tictactoe.challenges
+package edu.isel.adeetc.pdm.tictactoe.challenges.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.isel.adeetc.pdm.getViewModel
+import edu.isel.adeetc.pdm.kotlinx.getViewModel
+import edu.isel.adeetc.pdm.kotlinx.observe
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
-import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengeInfo
-import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengesViewModel
-import edu.isel.adeetc.pdm.tictactoe.challenges.view.ChallengesListAdapter
+import edu.isel.adeetc.pdm.tictactoe.challenges.create.CreateChallengeActivity
+import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
+import edu.isel.adeetc.pdm.tictactoe.challenges.list.view.ChallengesListAdapter
 import kotlinx.android.synthetic.main.activity_challenges_list.*
 
 private const val CHALLENGES_LIST_KEY = "challenges_list"
@@ -43,13 +44,17 @@ class ChallengesListActivity : AppCompatActivity() {
         challenges = getViewModel(CHALLENGES_LIST_KEY) {
             savedInstanceState?.getParcelable(CHALLENGES_LIST_KEY) ?: ChallengesViewModel()
         }
-        challengesList.adapter = ChallengesListAdapter(challenges)
+        challengesList.adapter =
+            ChallengesListAdapter(challenges)
 
         // Did the list contents change?
-        challenges.content.observe(this, Observer<List<ChallengeInfo>> {
-            challengesList.swapAdapter(ChallengesListAdapter(challenges), false)
+        challenges.content.observe(this) {
+            challengesList.swapAdapter(
+                ChallengesListAdapter(
+                    challenges
+                ), false)
             refreshLayout.isRefreshing = false
-        })
+        }
 
         // Should we refresh the data?
         if (savedInstanceState == null || !savedInstanceState.getBoolean(IS_RECONFIGURING_KEY)) {
@@ -66,7 +71,9 @@ class ChallengesListActivity : AppCompatActivity() {
         }
 
         createChallengeButton.setOnClickListener {
-            startActivityForResult(Intent(this, CreateChallengeActivity::class.java), CREATE_CODE)
+            startActivityForResult(Intent(this, CreateChallengeActivity::class.java),
+                CREATE_CODE
+            )
         }
     }
 

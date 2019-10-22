@@ -2,7 +2,7 @@ package edu.isel.adeetc.pdm.kotlinx;
 
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
-import edu.isel.adeetc.pdm.tictactoe.challenges.model.ChallengeInfo;
+import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo;
 
 /**
  * Work around for bug on the Android plugin that is responsible for generating the Parcelize

@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import edu.isel.adeetc.pdm.getViewModel
-import edu.isel.adeetc.pdm.tictactoe.AboutActivity
+import edu.isel.adeetc.pdm.kotlinx.getViewModel
+import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import edu.isel.adeetc.pdm.tictactoe.game.model.Player
