@@ -33,7 +33,7 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
     }
 
     /**
-     * Singleton instance used to paint the view's content
+     * Singleton instance used to paint the view's createdChallenge
      */
     private object ContentBrush : Paint() {
         init {
@@ -95,7 +95,7 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
     }
 
     /**
-     * Draws the cell's content, according to the current display mode
+     * Draws the cell's createdChallenge, according to the current display mode
      *
      * @param [canvas]  The [Canvas] where the frame is to be drawn
      */

@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
  * @param   [owner]     the host whose lifecycle is to be respected
  * @param   [onChange]  the function to be called to produce the notification
  *
- * @param [T]   The mutable live data content's concrete type
+ * @param [T]   The mutable live data createdChallenge's concrete type
  */
 inline fun <T> MutableLiveData<T>.observe(owner: LifecycleOwner, crossinline onChange: (T) -> Unit) {
     this.observe(owner, Observer { onChange(it) })

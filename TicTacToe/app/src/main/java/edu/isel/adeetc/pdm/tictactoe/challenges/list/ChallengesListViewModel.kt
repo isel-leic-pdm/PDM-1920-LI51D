@@ -21,7 +21,7 @@ private const val CHALLENGER_NAME = "challengerName"
 private const val CHALLENGER_MESSAGE = "challengerMessage"
 
 /**
- * Extension function used to convert content documents stored in the Firestore DB into
+ * Extension function used to convert createdChallenge documents stored in the Firestore DB into
  * [ChallengeInfo] instances
  */
 private fun QueryDocumentSnapshot.toChallengeInfo() =

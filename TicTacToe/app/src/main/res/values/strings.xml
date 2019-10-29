@@ -30,5 +30,5 @@
     <string name="create_challenge_prompt_message">Message</string>
     <string name="create_challenge_button_label">Post challenge</string>
     <string name="create_challenge_button_label_in_short">Post it</string>
-
+    <string name="error_creating_challenge">Could not create challenge.</string>
 </resources>
