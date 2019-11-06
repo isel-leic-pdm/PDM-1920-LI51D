@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import edu.isel.adeetc.pdm.tictactoe.game.MainActivity
+import edu.isel.adeetc.pdm.tictactoe.game.GameActivity
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class GameActivityTest {
 
     private fun childAtPosition(
         parentMatcher: Matcher<View>, position: Int
@@ -46,7 +46,7 @@ class MainActivityTest {
 
     @Rule
     @JvmField
-    var activityTestRule = ActivityTestRule(MainActivity::class.java)
+    var activityTestRule = ActivityTestRule(GameActivity::class.java)
 
     @Test
     fun whenGameIsStarted_buttonsEnabledStateIsCorrect() {

@@ -1,18 +1,23 @@
 package edu.isel.adeetc.pdm.tictactoe.challenges.list
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.isel.adeetc.pdm.kotlinx.getViewModel
 import edu.isel.adeetc.pdm.kotlinx.observe
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
+import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.create.CreateChallengeActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.view.ChallengesListAdapter
+import edu.isel.adeetc.pdm.tictactoe.game.ACCEPTED_CHALLENGE_EXTRA
+import edu.isel.adeetc.pdm.tictactoe.game.GameActivity
 import kotlinx.android.synthetic.main.activity_challenges_list.*
 
 private const val CHALLENGES_LIST_KEY = "challenges_list"
@@ -23,6 +28,20 @@ private const val CREATE_CODE = 10001
  * The activity used to display the list of existing challenges.
  */
 class ChallengesListActivity : AppCompatActivity() {
+
+    private fun challengeSelected(challenge: ChallengeInfo) {
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.accept_challenge_dialog_title, challenge.challengerName))
+            .setPositiveButton(R.string.accept_challenge_dialog_ok) { _, _ ->
+                startActivity(Intent(this, GameActivity::class.java).apply {
+                    putExtra(ACCEPTED_CHALLENGE_EXTRA, challenge)
+                })
+            }
+            .setNegativeButton(R.string.accept_challenge_dialog_cancel, null)
+            .create()
+            .show()
+    }
 
     private val application: TicTacToeApplication
         get() = super.getApplication() as TicTacToeApplication
@@ -46,12 +65,12 @@ class ChallengesListActivity : AppCompatActivity() {
         challenges = getViewModel(CHALLENGES_LIST_KEY) {
             savedInstanceState?.getParcelable(CHALLENGES_LIST_KEY) ?: ChallengesViewModel()
         }
-        challengesList.adapter = ChallengesListAdapter(challenges)
+        challengesList.adapter = ChallengesListAdapter(challenges, ::challengeSelected)
 
         // Did the list contents change?
         challenges.content.observe(this) {
             challengesList.swapAdapter(
-                ChallengesListAdapter(challenges),
+                ChallengesListAdapter(challenges, ::challengeSelected),
                 false
             )
             refreshLayout.isRefreshing = false

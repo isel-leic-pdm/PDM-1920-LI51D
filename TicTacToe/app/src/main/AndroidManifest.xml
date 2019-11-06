@@ -5,7 +5,7 @@
 
     <application
         android:name=".TicTacToeApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -13,25 +13,19 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".game.MainActivity">
+        <activity android:name=".game.GameActivity" android:label="@string/game_screen_title_local">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".challenges.list.ChallengesListActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".challenges.create.CreateChallengeActivity" />
+            android:name=".challenges.list.ChallengesListActivity"
+            android:label="@string/list_screen_title">
+        </activity>
 
+        <activity android:name=".challenges.create.CreateChallengeActivity" />
         <activity android:name=".about.AboutActivity" />
     </application>
 

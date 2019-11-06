@@ -3,9 +3,11 @@
     <string name="app_name">TicTacToe</string>
 
     <!-- Game screen -->
+    <string name="game_screen_title_local">Lets play TicTacToe</string>
     <string name="game_start_button_label">Start</string>
     <string name="game_forfeit_button_label">Forfeit</string>
     <string name="game_menu_about_label">About</string>
+    <string name="game_menu_challenges_label">Challenges</string>
 
     <string name="game_initial_message">Press Start to begin play</string>
     <string name="game_turn_message">Turn: %s</string>
@@ -20,6 +22,7 @@
     <string name="about_author_linked_in_description">LinkedIn logo</string>
 
     <!-- Game list screen -->
+    <string name="list_screen_title">TicTacToe challenges</string>
     <string name="list_create_challenge_button_label">New Challenge</string>
     <string name="list_menu_update_label">Refresh</string>
     <string name="error_getting_list">Could not fetch challenges list</string>
@@ -31,4 +34,8 @@
     <string name="create_challenge_button_label">Post challenge</string>
     <string name="create_challenge_button_label_in_short">Post it</string>
     <string name="error_creating_challenge">Could not create challenge.</string>
+
+    <string name="accept_challenge_dialog_title">Accept %s\'s challenge?</string>
+    <string name="accept_challenge_dialog_ok">OK</string>
+    <string name="accept_challenge_dialog_cancel">Cancel</string>
 </resources>

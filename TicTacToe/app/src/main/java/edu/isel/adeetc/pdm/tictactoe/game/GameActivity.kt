@@ -11,6 +11,7 @@ import androidx.core.view.children
 import edu.isel.adeetc.pdm.kotlinx.getViewModel
 import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.R
+import edu.isel.adeetc.pdm.tictactoe.challenges.list.ChallengesListActivity
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import edu.isel.adeetc.pdm.tictactoe.game.view.CellView
@@ -31,9 +32,19 @@ private fun CellView.updateDisplayMode(player: Player?) {
 private const val GAME_STATE_KEY = "game_state"
 
 /**
- * The game's main activity. It displays the game board.
+ * Key to be used when adding the accepted challenge info as an extra of the intent to be sent to
+ * the [GameActivity]. The presence or the absence of this extra will determine the activity's
+ * launch mode: local game if the extra is absent; distributed game if the extra is present.
  */
-class MainActivity : AppCompatActivity() {
+const val ACCEPTED_CHALLENGE_EXTRA = "accepted_challenge_extra"
+
+/**
+ * The activity that displays the game board. It can be launched in one of two modes: local game or
+ * distributed game.
+ *
+ * TODO: Add support for distributed game
+ */
+class GameActivity : AppCompatActivity() {
 
     /**
      * The associated view model instance
@@ -141,6 +152,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.about -> {
             startActivity(Intent(this, AboutActivity::class.java))
+            true
+        }
+        R.id.challenges -> {
+            startActivity(Intent(this, ChallengesListActivity::class.java))
             true
         }
         else -> super.onOptionsItemSelected(item)

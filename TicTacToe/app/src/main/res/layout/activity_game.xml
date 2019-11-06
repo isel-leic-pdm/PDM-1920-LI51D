@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.isel.adeetc.pdm.tictactoe.game.MainActivity">
+    tools:context="edu.isel.adeetc.pdm.tictactoe.game.GameActivity">
 
     <TextView
         android:id="@+id/messageBoard"
