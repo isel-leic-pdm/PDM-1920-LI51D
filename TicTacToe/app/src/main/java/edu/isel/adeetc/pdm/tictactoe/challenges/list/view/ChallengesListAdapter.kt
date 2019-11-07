@@ -1,16 +1,13 @@
 package edu.isel.adeetc.pdm.tictactoe.challenges.list.view
 
 import android.animation.ValueAnimator
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.ChallengesViewModel

@@ -13,7 +13,17 @@ import kotlinx.android.synthetic.main.activity_create_challenge.*
 
 import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 
+/**
+ * The key used to identify the view model used by the [CreateChallengeActivity] to create the
+ * challenge. The view model is a [CreateChallengeViewModel] instance.
+ */
 private const val CHALLENGE_KEY = "challenge"
+
+/**
+ * The key used to identify the result extra bearing the [ChallengeInfo] instance
+ */
+const val RESULT_EXTRA = "CCA.Result"
+
 
 /**
  * The activity used to create a new challenge.
@@ -23,11 +33,6 @@ private const val CHALLENGE_KEY = "challenge"
  * of the result [Intent].
  */
 class CreateChallengeActivity : AppCompatActivity() {
-
-    /**
-     * The key used to identify the result extra bearing the [ChallengeInfo] instance
-     */
-    public val RESULT_EXTRA = "CCA.Result"
 
     /**
      * The associated view model instance

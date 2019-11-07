@@ -1,9 +1,9 @@
 package edu.isel.adeetc.pdm.tictactoe.challenges.list
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +17,9 @@ import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.create.CreateChallengeActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.view.ChallengesListAdapter
 import edu.isel.adeetc.pdm.tictactoe.game.ACCEPTED_CHALLENGE_EXTRA
-import edu.isel.adeetc.pdm.tictactoe.game.GameActivity
+import edu.isel.adeetc.pdm.tictactoe.game.DistributedGameActivity
+import edu.isel.adeetc.pdm.tictactoe.game.PLAYER_EXTRA
+import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import kotlinx.android.synthetic.main.activity_challenges_list.*
 
 private const val CHALLENGES_LIST_KEY = "challenges_list"
@@ -29,13 +31,20 @@ private const val CREATE_CODE = 10001
  */
 class ChallengesListActivity : AppCompatActivity() {
 
+    /**
+     * Called whenever a list element is selected. The player that accepts the challenge is the
+     * first to make a move.
+     *
+     * @param challenge the selected challenge
+     */
     private fun challengeSelected(challenge: ChallengeInfo) {
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.accept_challenge_dialog_title, challenge.challengerName))
             .setPositiveButton(R.string.accept_challenge_dialog_ok) { _, _ ->
-                startActivity(Intent(this, GameActivity::class.java).apply {
+                startActivity(Intent(this, DistributedGameActivity::class.java).apply {
                     putExtra(ACCEPTED_CHALLENGE_EXTRA, challenge)
+                    putExtra(PLAYER_EXTRA, Player.P1 as Parcelable)
                 })
             }
             .setNegativeButton(R.string.accept_challenge_dialog_cancel, null)

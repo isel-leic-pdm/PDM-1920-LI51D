@@ -9,8 +9,9 @@ import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import edu.isel.adeetc.pdm.kotlinx.getViewModel
-import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.R
+import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
+import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.ChallengesListActivity
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import edu.isel.adeetc.pdm.tictactoe.game.model.Player
@@ -29,20 +30,14 @@ private fun CellView.updateDisplayMode(player: Player?) {
     }
 }
 
+/**
+ * The key used to identify the view model used by the [GameActivity] to actually play the game.
+ * The view model is a [Game] instance.
+ */
 private const val GAME_STATE_KEY = "game_state"
 
 /**
- * Key to be used when adding the accepted challenge info as an extra of the intent to be sent to
- * the [GameActivity]. The presence or the absence of this extra will determine the activity's
- * launch mode: local game if the extra is absent; distributed game if the extra is present.
- */
-const val ACCEPTED_CHALLENGE_EXTRA = "accepted_challenge_extra"
-
-/**
- * The activity that displays the game board. It can be launched in one of two modes: local game or
- * distributed game.
- *
- * TODO: Add support for distributed game
+ * The activity that displays the game board when the game is in the local game mode.
  */
 class GameActivity : AppCompatActivity() {
 
@@ -50,6 +45,9 @@ class GameActivity : AppCompatActivity() {
      * The associated view model instance
      */
     internal lateinit var game: Game
+
+    private val application: TicTacToeApplication
+        get() = super.getApplication() as TicTacToeApplication
 
     /**
      * Used to update the UI according to the current state of the view model
