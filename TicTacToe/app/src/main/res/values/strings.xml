@@ -4,6 +4,7 @@
 
     <!-- Game screen -->
     <string name="game_screen_title_local">Lets play TicTacToe</string>
+    <string name="game_screen_title_distributed">Playing %s</string>
     <string name="game_start_button_label">Start</string>
     <string name="game_forfeit_button_label">Forfeit</string>
     <string name="game_menu_about_label">About</string>

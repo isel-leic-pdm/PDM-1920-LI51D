@@ -27,6 +27,7 @@
 
         <activity android:name=".challenges.create.CreateChallengeActivity" />
         <activity android:name=".about.AboutActivity" />
+        <activity android:name=".game.DistributedGameActivity" />
     </application>
 
 </manifest>
