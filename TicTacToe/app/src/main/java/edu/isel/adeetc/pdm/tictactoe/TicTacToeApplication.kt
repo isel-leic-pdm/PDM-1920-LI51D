@@ -1,6 +1,8 @@
 package edu.isel.adeetc.pdm.tictactoe
 
 import android.app.Application
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.firebase.firestore.FirebaseFirestore
 
 /**
@@ -19,10 +21,17 @@ class TicTacToeApplication : Application() {
     lateinit var db: FirebaseFirestore
 
     /**
+     * The object mapper to be used
+     */
+    lateinit var mapper: ObjectMapper
+
+    /**
      * Callback method that handles global initializations
      */
     override fun onCreate() {
         super.onCreate()
+
+        mapper = jacksonObjectMapper()
         db = FirebaseFirestore.getInstance()
     }
 }
