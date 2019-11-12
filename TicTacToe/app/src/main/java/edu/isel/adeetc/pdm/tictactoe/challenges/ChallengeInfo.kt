@@ -16,4 +16,5 @@ import kotlinx.android.parcel.Parcelize
 data class ChallengeInfo(
     val id: String,
     val challengerName: String,
-    val challengerMessage: String) : Parcelable
+    val challengerMessage: String
+) : Parcelable

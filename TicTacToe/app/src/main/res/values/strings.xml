@@ -4,7 +4,9 @@
 
     <!-- Game screen -->
     <string name="game_screen_title_local">Lets play TicTacToe</string>
-    <string name="game_screen_title_distributed">Playing %s</string>
+    <string name="game_screen_title_distributed_challenger_waiting">Waiting for contender</string>
+    <string name="game_screen_title_distributed_challenger_playing">Playing against contender</string>
+    <string name="game_screen_title_distributed_contender">Playing %s</string>
     <string name="game_start_button_label">Start</string>
     <string name="game_forfeit_button_label">Forfeit</string>
     <string name="game_menu_about_label">About</string>
@@ -12,8 +14,13 @@
 
     <string name="game_initial_message">Press Start to begin play</string>
     <string name="game_turn_message">Turn: %s</string>
+    <string name="game_turn_message_self">Turn: You\'re up</string>
+    <string name="game_turn_message_contender">Turn: Contender</string>
     <string name="game_winner_message">The winner is %s</string>
+    <string name="game_winner_message_self">You WON!</string>
+    <string name="game_looser_message_self">You loose. Get a life!</string>
     <string name="game_tied_message">No one won</string>
+
 
     <!-- About screen -->
     <string name="about_author_label">By</string>
@@ -39,4 +46,5 @@
     <string name="accept_challenge_dialog_title">Accept %s\'s challenge?</string>
     <string name="accept_challenge_dialog_ok">OK</string>
     <string name="accept_challenge_dialog_cancel">Cancel</string>
+    <string name="loading">Loading...</string>
 </resources>

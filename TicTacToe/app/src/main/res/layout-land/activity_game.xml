@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="edu.isel.adeetc.pdm.tictactoe.game.GameActivity">
+    tools:context="edu.isel.adeetc.pdm.tictactoe.game.local.GameActivity">
 
     <TableLayout
         android:id="@+id/board"

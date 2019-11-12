@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".game.GameActivity" android:label="@string/game_screen_title_local">
+        <activity android:name=".game.local.GameActivity" android:label="@string/game_screen_title_local">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

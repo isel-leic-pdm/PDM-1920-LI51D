@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import edu.isel.adeetc.pdm.tictactoe.R
+import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import kotlin.math.min
 
 private const val MIN_SIDE = 300
@@ -142,6 +143,19 @@ class CellView(ctx: Context, attrs: AttributeSet?) : View(ctx, attrs) {
             field = value
             invalidate()
         }
+
+    /**
+     * Method used to update a given [CellView] instance's display mode
+     *
+     * @param   [player]    the player information
+     */
+    fun updateDisplayMode(player: Player?) {
+        displayMode = when (player) {
+            Player.P1 -> DisplayMode.CROSS
+            Player.P2 -> DisplayMode.CIRCLE
+            null -> DisplayMode.NONE
+        }
+    }
 
     override fun onDraw(canvas: Canvas) {
         drawFrame(canvas)

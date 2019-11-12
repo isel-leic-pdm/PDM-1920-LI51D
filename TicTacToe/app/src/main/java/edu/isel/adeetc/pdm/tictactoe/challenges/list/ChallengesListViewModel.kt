@@ -38,14 +38,12 @@ private fun QueryDocumentSnapshot.toChallengeInfo() =
 object ChallengesViewModelParcelizer : Parceler<MutableLiveData<List<ChallengeInfo>>> {
 
     override fun create(parcel: Parcel): MutableLiveData<List<ChallengeInfo>> {
-        Log.v(TAG, "ChallengesViewModelParcelizer.create() called")
         val contents = mutableListOf<ChallengeInfo>()
         parcel.readTypedList<ChallengeInfo>(contents, CreatorProxy.getChallengeInfoCreator())
         return MutableLiveData(contents)
     }
 
     override fun MutableLiveData<List<ChallengeInfo>>.write(parcel: Parcel, flags: Int) {
-        Log.v(TAG, "ChallengesViewModelParcelizer.write() called")
         parcel.writeTypedList(value)
     }
 }
@@ -63,6 +61,9 @@ class ChallengesViewModel(
     val content: MutableLiveData<List<ChallengeInfo>> = MutableLiveData()
 ) : ViewModel(), Parcelable {
 
+    /**
+     * Updates the local version of the challenges list by getting it from the serve
+     */
     fun updateChallenges(application: TicTacToeApplication) {
 
         application.db.collection("challenges")
@@ -75,6 +76,20 @@ class ChallengesViewModel(
                 Log.e(TAG, "An error occurred while fetching list from firestore")
                 Log.e(TAG, "Error was $it")
                 Toast.makeText(application, R.string.error_getting_list, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    /**
+     * Deletes the given challenge, both from the server and from the local list
+     */
+    fun deleteChallenge(application: TicTacToeApplication, challengeInfo: ChallengeInfo) {
+
+        application.db
+            .collection("challenges")
+            .document(challengeInfo.id)
+            .delete()
+            .addOnSuccessListener {
+                content.value = content.value?.filter { it.id != challengeInfo.id }
             }
     }
 }

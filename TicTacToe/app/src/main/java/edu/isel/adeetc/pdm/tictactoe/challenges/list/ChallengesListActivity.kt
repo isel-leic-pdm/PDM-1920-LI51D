@@ -15,6 +15,7 @@ import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
 import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.create.CreateChallengeActivity
+import edu.isel.adeetc.pdm.tictactoe.challenges.create.RESULT_EXTRA
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.view.ChallengesListAdapter
 import edu.isel.adeetc.pdm.tictactoe.game.ACCEPTED_CHALLENGE_EXTRA
 import edu.isel.adeetc.pdm.tictactoe.game.DistributedGameActivity
@@ -42,6 +43,7 @@ class ChallengesListActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.accept_challenge_dialog_title, challenge.challengerName))
             .setPositiveButton(R.string.accept_challenge_dialog_ok) { _, _ ->
+                challenges.deleteChallenge(application, challenge)
                 startActivity(Intent(this, DistributedGameActivity::class.java).apply {
                     putExtra(ACCEPTED_CHALLENGE_EXTRA, challenge)
                     putExtra(PLAYER_EXTRA, Player.P1 as Parcelable)
@@ -108,6 +110,15 @@ class ChallengesListActivity : AppCompatActivity() {
     }
 
     /**
+     * Callback method used to signal that the activity as regained the user attention
+     */
+    override fun onRestart() {
+        super.onRestart()
+        refreshLayout.isRefreshing = true
+        challenges.updateChallenges(application)
+    }
+
+    /**
      * Callback method that handles view state preservation
      */
     override fun onSaveInstanceState(outState: Bundle) {
@@ -149,6 +160,11 @@ class ChallengesListActivity : AppCompatActivity() {
             CREATE_CODE -> if (resultCode == Activity.RESULT_OK) {
                 refreshLayout.isRefreshing = true
                 challenges.updateChallenges(application)
+                val createdChallenge = data?.getParcelableExtra<ChallengeInfo>(RESULT_EXTRA)
+                startActivity(Intent(this, DistributedGameActivity::class.java).apply {
+                    putExtra(ACCEPTED_CHALLENGE_EXTRA, createdChallenge)
+                    putExtra(PLAYER_EXTRA, Player.P2 as Parcelable)
+                })
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }

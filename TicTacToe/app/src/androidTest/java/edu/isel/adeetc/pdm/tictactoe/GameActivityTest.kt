@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import edu.isel.adeetc.pdm.tictactoe.game.GameActivity
+import edu.isel.adeetc.pdm.tictactoe.game.local.GameActivity
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -55,7 +55,7 @@ class GameActivityTest {
             allOf(withId(R.id.startButton), withText("Start"))
         ).perform(click())
 
-        assertThat(activityTestRule.activity.game.state, `is`(Game.State.STARTED))
+        assertThat(activityTestRule.activity.viewModel.game.state, `is`(Game.State.STARTED))
 
         onView(withId(R.id.startButton)).check(matches(not(isEnabled())))
         onView(withId(R.id.forfeitButton)).check(matches(isEnabled()))
@@ -80,8 +80,8 @@ class GameActivityTest {
 
         onView(withId(R.id.forfeitButton)).perform(click())
 
-        assertThat(activityTestRule.activity.game.state, `is`(Game.State.FINISHED))
-        assertThat(activityTestRule.activity.game.getMoveAt(0,0), notNullValue())
+        assertThat(activityTestRule.activity.viewModel.game.state, `is`(Game.State.FINISHED))
+        assertThat(activityTestRule.activity.viewModel.game.getMoveAt(0,0), notNullValue())
 
         onView(withId(R.id.startButton)).check(matches(isEnabled()))
         onView(withId(R.id.forfeitButton)).check(matches(not(isEnabled())))
@@ -109,8 +109,8 @@ class GameActivityTest {
 
         InstrumentationRegistry.getInstrumentation().uiAutomation.setRotation(ROTATION_FREEZE_90)
 
-        assertThat(activityTestRule.activity.game.state, `is`(Game.State.STARTED))
-        assertThat(activityTestRule.activity.game.getMoveAt(0,0), notNullValue())
+        assertThat(activityTestRule.activity.viewModel.game.state, `is`(Game.State.STARTED))
+        assertThat(activityTestRule.activity.viewModel.game.getMoveAt(0,0), notNullValue())
 
         onView(withId(R.id.startButton)).check(matches(not(isEnabled())))
         onView(withId(R.id.forfeitButton)).check(matches(isEnabled()))

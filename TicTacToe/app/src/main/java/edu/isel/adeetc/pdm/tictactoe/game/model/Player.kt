@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Represents the game players.
+ * Represents the viewModel players.
  *
  * @constructor Creates a player with the given identifier
  */

@@ -1,4 +1,4 @@
-package edu.isel.adeetc.pdm.tictactoe.game
+package edu.isel.adeetc.pdm.tictactoe.game.local
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import edu.isel.adeetc.pdm.kotlinx.getViewModel
 import edu.isel.adeetc.pdm.tictactoe.R
-import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
 import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.ChallengesListActivity
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
@@ -20,18 +19,7 @@ import kotlinx.android.synthetic.main.activity_game.*
 
 
 /**
- * Extension method used to update a given [CellView] instance's display mode
- */
-private fun CellView.updateDisplayMode(player: Player?) {
-    this.displayMode = when (player) {
-        Player.P1 -> CellView.DisplayMode.CROSS
-        Player.P2 -> CellView.DisplayMode.CIRCLE
-        null -> CellView.DisplayMode.NONE
-    }
-}
-
-/**
- * The key used to identify the view model used by the [GameActivity] to actually play the game.
+ * The key used to identify the view model used by the [GameActivity] to actually play the viewModel.
  * The view model is a [Game] instance.
  */
 private const val GAME_STATE_KEY = "game_state"
@@ -44,26 +32,23 @@ class GameActivity : AppCompatActivity() {
     /**
      * The associated view model instance
      */
-    internal lateinit var game: Game
-
-    private val application: TicTacToeApplication
-        get() = super.getApplication() as TicTacToeApplication
+    internal lateinit var viewModel: GameViewModel
 
     /**
-     * Used to update the UI according to the current state of the view model
+     * Used to update the UI according to the current state of the game
      */
     private fun updateUI() {
 
-        if (game.state == Game.State.FINISHED) {
+        if (viewModel.game.state == Game.State.FINISHED) {
             startButton.isEnabled = true
             forfeitButton.isEnabled = false
             messageBoard.text =
-                if (game.isTied()) getString(R.string.game_tied_message)
-                else getString(R.string.game_winner_message, game.theWinner)
+                if (viewModel.game.isTied()) getString(R.string.game_tied_message)
+                else getString(R.string.game_winner_message, viewModel.game.theWinner)
         }
         else {
-            if (game.state == Game.State.STARTED) {
-                messageBoard.text = getString(R.string.game_turn_message, game.nextTurn)
+            if (viewModel.game.state == Game.State.STARTED) {
+                messageBoard.text = getString(R.string.game_turn_message, viewModel.game.nextTurn)
                 startButton.isEnabled = false
                 forfeitButton.isEnabled = true
             }
@@ -71,15 +56,15 @@ class GameActivity : AppCompatActivity() {
     }
 
     /**
-     * Used to initialize de board view according to the current state of the view model
+     * Used to initialize de board view according to the current state of the game
      */
     private fun initBoardView() {
 
-        if (game.state != Game.State.NOT_STARTED)
+        if (viewModel.game.state != Game.State.NOT_STARTED)
             board.children.forEach { row ->
                 (row as? TableRow)?.children?.forEach {
                     if (it is CellView)
-                        it.updateDisplayMode(game.getMoveAt(it.column, it.row))
+                        it.updateDisplayMode(viewModel.game.getMoveAt(it.column, it.row))
                 }
             }
 
@@ -93,11 +78,11 @@ class GameActivity : AppCompatActivity() {
      */
     fun handleMove(view: View) {
 
-        if (game.state != Game.State.STARTED)
+        if (viewModel.game.state != Game.State.STARTED)
             return
 
         val cell = view as CellView
-        val played = game.makeMoveAt(cell.column, cell.row) ?: return
+        val played = viewModel.game.makeMoveAt(cell.column, cell.row) ?: return
 
         cell.updateDisplayMode(played)
         updateUI()
@@ -110,18 +95,22 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        game = getViewModel(GAME_STATE_KEY) {
-            savedInstanceState?.getParcelable(GAME_STATE_KEY) ?: Game()
+        viewModel = getViewModel(GAME_STATE_KEY) {
+            GameViewModel(
+                savedInstanceState?.getParcelable(
+                    GAME_STATE_KEY
+                ) ?: Game()
+            )
         }
         initBoardView()
 
         startButton.setOnClickListener {
-            game.start(Player.P1)
+            viewModel.game.start(Player.P1)
             initBoardView()
         }
 
         forfeitButton.setOnClickListener {
-            game.forfeit()
+            viewModel.game.forfeit()
             updateUI()
         }
     }
@@ -132,7 +121,7 @@ class GameActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (!isChangingConfigurations) {
-            outState.putParcelable(GAME_STATE_KEY, game)
+            outState.putParcelable(GAME_STATE_KEY, viewModel.game)
         }
     }
 
