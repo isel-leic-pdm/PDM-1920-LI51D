@@ -13,6 +13,9 @@ interface QuoteDAO {
     @Query("SELECT * FROM quotes WHERE name = :name")
     fun findById(name: String): Quote
 
+    @Update
+    fun updateAll(vararg quotes: Quote)
+
     @Insert
     fun insertAll(vararg quotes: Quote)
 

@@ -22,7 +22,7 @@ class CurrenciesRepository(private val app: CurrencyApplication) {
                 Log.v(app.TAG, "Saving quotes to DB")
                 val date = Calendar.getInstance().format()
                 val result = dto.quotes.map { Quote(it.currency, it.quote, date) }
-                db.quoteDAO().insertAll(*result.toTypedArray())
+                db.quoteDAO().updateAll(*result.toTypedArray())
                 result
             }
             else listOf()
