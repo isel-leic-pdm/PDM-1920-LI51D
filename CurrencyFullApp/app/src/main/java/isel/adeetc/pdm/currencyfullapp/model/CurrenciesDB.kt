@@ -1,26 +1,20 @@
-package isel.adeetc.pdm.currencywroom.model
+package isel.adeetc.pdm.currencyfullapp.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import java.util.*
 
 @Dao
 interface QuoteDAO {
     @Query("SELECT * FROM quotes")
     fun getAll(): List<Quote>
 
-    @Query("SELECT * FROM quotes")
-    fun anotherGetAll(): LiveData<List<Quote>>
-
     @Query("SELECT * FROM quotes WHERE date LIKE :date")
-    fun getAllByDate(date: String): List<Quote>
+    fun getAllByDate(date: Calendar): List<Quote>
 
     @Query("SELECT * FROM quotes WHERE name = :name")
     fun findById(name: String): Quote
 
-    @Update
-    fun updateAll(vararg quotes: Quote)
-
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg quotes: Quote)
 
     @Delete
@@ -28,6 +22,7 @@ interface QuoteDAO {
 }
 
 @Database(entities = arrayOf(Quote::class), version = 1)
+@TypeConverters(QuoteTypeConverters::class)
 abstract class CurrenciesDatabase : RoomDatabase() {
     abstract fun quoteDAO(): QuoteDAO
 }
