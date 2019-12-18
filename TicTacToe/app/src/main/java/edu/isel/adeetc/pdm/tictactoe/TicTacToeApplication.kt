@@ -1,6 +1,11 @@
 package edu.isel.adeetc.pdm.tictactoe
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.core.app.NotificationManagerCompat
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -39,6 +44,32 @@ class TicTacToeApplication : Application() {
     lateinit var mapper: ObjectMapper
 
     /**
+     * The identifier of the channel to be used to produce game state change notifications
+     */
+    val MOVES_NOTIFICATION_CHANNEL_ID: String = "MovesNotificationChannelId"
+
+    /**
+     * Function used to create the channel to where game state change notifications will be sent
+     */
+    private fun createNotificationChannels() {
+        // Create notification channel if we are running on a O+ device
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                MOVES_NOTIFICATION_CHANNEL_ID,
+                getString(R.string.moves_channel_name),
+                NotificationManager.IMPORTANCE_LOW).apply {
+                description = getString(R.string.moves_channel_description)
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+        }
+
+    }
+
+    /**
      * Callback method that handles global initializations
      */
     override fun onCreate() {
@@ -53,5 +84,6 @@ class TicTacToeApplication : Application() {
         })
 
         db = FirebaseFirestore.getInstance()
+        createNotificationChannels()
     }
 }

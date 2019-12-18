@@ -1,6 +1,10 @@
 package edu.isel.adeetc.pdm.tictactoe.game
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.isel.adeetc.pdm.kotlinx.getViewModel
 import edu.isel.adeetc.pdm.kotlinx.observe
 import edu.isel.adeetc.pdm.tictactoe.R
+import edu.isel.adeetc.pdm.tictactoe.TAG
 import edu.isel.adeetc.pdm.tictactoe.TicTacToeApplication
 import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
@@ -45,6 +50,11 @@ class DistributedGameActivity : AppCompatActivity() {
      * The associated view model instance
      */
     internal lateinit var viewModel: DistributedGameViewModel
+
+    /**
+     * Intent that was used to start the foreground service listening for game state changes
+     */
+    var serviceIntent: Intent? = null
 
     private val application: TicTacToeApplication
         get() = super.getApplication() as TicTacToeApplication
@@ -169,5 +179,39 @@ class DistributedGameActivity : AppCompatActivity() {
         forfeitButton.setOnClickListener {
             viewModel.forfeit(application)
         }
+
+        Log.v(TAG, "DistributedGameActivity.onCreate() received player $player and " +
+                "local player is ${viewModel.localPlayer} and player to move is ${viewModel.game.value?.nextTurn}")
+
+    }
+
+    /**
+     * Callback method that handles the activity becoming not visible to the user
+     */
+    override fun onStop() {
+        super.onStop()
+        Log.v(TAG, "DistributedGameActivity.onStop()")
+
+        if (!isFinishing) {
+            serviceIntent = Intent(this, DistributedGameStateListener::class.java).also {
+                val info: ChallengeInfo? = intent.extras?.getParcelable(ACCEPTED_CHALLENGE_EXTRA)
+                it.putExtra(CHALLENGE_EXTRA, info)
+                    .putExtra(LOCAL_PLAYER_EXTRA, viewModel.localPlayer as Parcelable)
+                    .putExtra(TURN_PLAYER_EXTRA, viewModel.game.value?.nextTurn as Parcelable)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(serviceIntent)
+            else startService(serviceIntent)
+        }
+    }
+
+    /**
+     * Callback method that handles the activity becoming again visible to the user
+     */
+    override fun onRestart() {
+        super.onRestart()
+        Log.v(TAG, "DistributedGameActivity.onRestart()")
+        stopService(serviceIntent)
+        serviceIntent = null
     }
 }

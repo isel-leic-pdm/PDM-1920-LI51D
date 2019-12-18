@@ -1,7 +1,9 @@
 package edu.isel.adeetc.pdm.tictactoe.game.local
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +14,7 @@ import edu.isel.adeetc.pdm.kotlinx.getViewModel
 import edu.isel.adeetc.pdm.tictactoe.R
 import edu.isel.adeetc.pdm.tictactoe.about.AboutActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.ChallengesListActivity
+import edu.isel.adeetc.pdm.tictactoe.game.DistributedGameStateListener
 import edu.isel.adeetc.pdm.tictactoe.game.model.Game
 import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import edu.isel.adeetc.pdm.tictactoe.game.view.CellView

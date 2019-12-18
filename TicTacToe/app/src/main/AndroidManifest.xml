@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.isel.adeetc.pdm.tictactoe">
 
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".TicTacToeApplication"
         android:allowBackup="false"
@@ -12,6 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <service android:name=".game.DistributedGameStateListener" />
 
         <activity android:name=".game.local.GameActivity" android:label="@string/game_screen_title_local">
             <intent-filter>
