@@ -23,17 +23,17 @@ import edu.isel.adeetc.pdm.tictactoe.game.model.Player
  * of the intent to be sent to the [DistributedGameStateListener]. The foreground service must receive
  * this extra.
  */
-const val CHALLENGE_EXTRA = "DGSL.ChallengeExtra"
+const val DGSL_CHALLENGE_EXTRA = "DGSL.ChallengeExtra"
 
 /**
  * Key to be used when adding the [Player] instance that represents the local player
  */
-const val LOCAL_PLAYER_EXTRA = "DGSL.ListenExtra"
+const val DGSL_LOCAL_PLAYER_EXTRA = "DGSL.ListenExtra"
 
 /**
  * Key to be used when adding the [Player] instance that represents the next player to make a move
  */
-const val TURN_PLAYER_EXTRA = "DGSL.ListenExtra"
+const val DGSL_TURN_PLAYER_EXTRA = "DGSL.ListenExtra"
 
 /**
  * Service used to host the listener of changes on the state of a distributed game. This ensures
@@ -51,14 +51,14 @@ class DistributedGameStateListener : Service() {
     private lateinit var nextTurn: Player
 
     private fun initializeFromIntent(intent: Intent?) {
-        challenge = intent?.extras?.getParcelable(CHALLENGE_EXTRA)
-            ?: throw IllegalArgumentException("Mandatory extra $CHALLENGE_EXTRA not present")
+        challenge = intent?.extras?.getParcelable(DGSL_CHALLENGE_EXTRA)
+            ?: throw IllegalArgumentException("Mandatory extra $DGSL_CHALLENGE_EXTRA not present")
 
-        localPlayer = intent.extras?.getParcelable(LOCAL_PLAYER_EXTRA)
-            ?: throw IllegalArgumentException("Mandatory extra $LOCAL_PLAYER_EXTRA not present")
+        localPlayer = intent.extras?.getParcelable(DGSL_LOCAL_PLAYER_EXTRA)
+            ?: throw IllegalArgumentException("Mandatory extra $DGSL_LOCAL_PLAYER_EXTRA not present")
 
-        nextTurn = intent.extras?.getParcelable(TURN_PLAYER_EXTRA)
-            ?: throw IllegalArgumentException("Mandatory extra $TURN_PLAYER_EXTRA not present")
+        nextTurn = intent.extras?.getParcelable(DGSL_TURN_PLAYER_EXTRA)
+            ?: throw IllegalArgumentException("Mandatory extra $DGSL_TURN_PLAYER_EXTRA not present")
     }
 
     private fun buildNotification(): Notification {

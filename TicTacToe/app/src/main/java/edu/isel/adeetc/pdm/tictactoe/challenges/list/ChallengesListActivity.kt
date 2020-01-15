@@ -17,9 +17,7 @@ import edu.isel.adeetc.pdm.tictactoe.challenges.ChallengeInfo
 import edu.isel.adeetc.pdm.tictactoe.challenges.create.CreateChallengeActivity
 import edu.isel.adeetc.pdm.tictactoe.challenges.create.RESULT_EXTRA
 import edu.isel.adeetc.pdm.tictactoe.challenges.list.view.ChallengesListAdapter
-import edu.isel.adeetc.pdm.tictactoe.game.ACCEPTED_CHALLENGE_EXTRA
-import edu.isel.adeetc.pdm.tictactoe.game.DistributedGameActivity
-import edu.isel.adeetc.pdm.tictactoe.game.PLAYER_EXTRA
+import edu.isel.adeetc.pdm.tictactoe.game.*
 import edu.isel.adeetc.pdm.tictactoe.game.model.Player
 import kotlinx.android.synthetic.main.activity_challenges_list.*
 
@@ -46,7 +44,8 @@ class ChallengesListActivity : AppCompatActivity() {
                 challenges.deleteChallenge(application, challenge)
                 startActivity(Intent(this, DistributedGameActivity::class.java).apply {
                     putExtra(ACCEPTED_CHALLENGE_EXTRA, challenge)
-                    putExtra(PLAYER_EXTRA, Player.P1 as Parcelable)
+                    putExtra(DGA_LOCAL_PLAYER_EXTRA, Player.P1 as Parcelable)
+                    putExtra(DGA_TURN_PLAYER_EXTRA, Player.P1 as Parcelable)
                 })
             }
             .setNegativeButton(R.string.accept_challenge_dialog_cancel, null)
@@ -163,7 +162,8 @@ class ChallengesListActivity : AppCompatActivity() {
                 val createdChallenge = data?.getParcelableExtra<ChallengeInfo>(RESULT_EXTRA)
                 startActivity(Intent(this, DistributedGameActivity::class.java).apply {
                     putExtra(ACCEPTED_CHALLENGE_EXTRA, createdChallenge)
-                    putExtra(PLAYER_EXTRA, Player.P2 as Parcelable)
+                    putExtra(DGA_LOCAL_PLAYER_EXTRA, Player.P2 as Parcelable)
+                    putExtra(DGA_TURN_PLAYER_EXTRA, Player.P1 as Parcelable)
                 })
             }
             else -> super.onActivityResult(requestCode, resultCode, data)

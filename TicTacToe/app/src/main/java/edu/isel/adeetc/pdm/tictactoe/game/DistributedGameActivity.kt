@@ -28,12 +28,14 @@ import kotlinx.android.synthetic.main.activity_game.*
 const val ACCEPTED_CHALLENGE_EXTRA = "DGA.AcceptedChallengeExtra"
 
 /**
- * Key to be used when adding the accepted challenge info (a [Player] instance) as an extra
- * of the intent to be sent to the [DistributedGameActivity]. The activity MUST receive this extra.
- * The [Player] instance determines the initial state, that is, if it's [Player.P1] then the local
- * player is the first to make a move;
+ * Key to be used when adding the [Player] instance that represents the local player
  */
-const val PLAYER_EXTRA = "DGA.PlayerExtra"
+const val DGA_LOCAL_PLAYER_EXTRA = "DGSL.ListenExtra"
+
+/**
+ * Key to be used when adding the [Player] instance that represents the next player to make a move
+ */
+const val DGA_TURN_PLAYER_EXTRA = "DGSL.ListenExtra"
 
 /**
  * The key used to identify the view model used by the [DistributedGameActivity] to actually play
@@ -74,9 +76,9 @@ class DistributedGameActivity : AppCompatActivity() {
     }
 
     /**
-     * Used to initialize de game view according to the current state of the game
+     * Used to render the game view when the game has not been started yet
      */
-    private fun initBoardView() {
+    private fun renderNotStarted() {
 
         if (viewModel.localPlayer == Player.P2) {
             title = getString(R.string.game_screen_title_distributed_challenger_waiting)
@@ -88,9 +90,40 @@ class DistributedGameActivity : AppCompatActivity() {
                 R.string.game_screen_title_distributed_contender,
                 viewModel.challengeInfo.challengerName
             )
+    }
 
-        updateBoard()
-        updateUI()
+    /**
+     * Used to render the game view when the game is in progress
+     */
+    private fun renderStarted() {
+        val initialPlayer: Player? = intent.extras?.getParcelable(PLAYER_EXTRA)
+        if (initialPlayer == Player.P2)
+            title = getString(R.string.game_screen_title_distributed_challenger_playing)
+        if (viewModel.localPlayer == viewModel.game.value?.nextTurn) {
+            messageBoard.text = getString(R.string.game_turn_message_self)
+            forfeitButton.isEnabled = true
+        } else {
+            messageBoard.text = getString(
+                R.string.game_turn_message,
+                viewModel.challengeInfo.challengerName
+            )
+            forfeitButton.isEnabled = false
+        }
+        startButton.isEnabled = false
+    }
+
+    /**
+     * Used to render the game view when the game is in progress
+     */
+    private fun renderFinished() {
+        startButton.isEnabled = false
+        forfeitButton.isEnabled = false
+        messageBoard.text =
+            if (viewModel.game.value?.isTied() == true) getString(R.string.game_tied_message)
+            else if (viewModel.game.value?.theWinner == viewModel.localPlayer)
+                getString(R.string.game_winner_message_self)
+            else
+                getString(R.string.game_looser_message_self)
     }
 
     /**
@@ -98,32 +131,10 @@ class DistributedGameActivity : AppCompatActivity() {
      */
     private fun updateUI() {
 
-        if (viewModel.game.value?.state == Game.State.FINISHED) {
-            startButton.isEnabled = false
-            forfeitButton.isEnabled = false
-            messageBoard.text =
-                if (viewModel.game.value?.isTied() == true) getString(R.string.game_tied_message)
-                else if (viewModel.game.value?.theWinner == viewModel.localPlayer)
-                    getString(R.string.game_winner_message_self)
-                else
-                    getString(R.string.game_looser_message_self)
-        } else {
-            if (viewModel.game.value?.state == Game.State.STARTED) {
-                val initialPlayer: Player? = intent.extras?.getParcelable(PLAYER_EXTRA)
-                if (initialPlayer == Player.P2)
-                    title = getString(R.string.game_screen_title_distributed_challenger_playing)
-                if (viewModel.localPlayer == viewModel.game.value?.nextTurn) {
-                    messageBoard.text = getString(R.string.game_turn_message_self)
-                    forfeitButton.isEnabled = true
-                } else {
-                    messageBoard.text = getString(
-                        R.string.game_turn_message,
-                        viewModel.challengeInfo.challengerName
-                    )
-                    forfeitButton.isEnabled = false
-                }
-                startButton.isEnabled = false
-            }
+        when (viewModel.game.value?.state) {
+            Game.State.NOT_STARTED -> renderNotStarted()
+            Game.State.STARTED -> renderStarted()
+            Game.State.FINISHED -> renderFinished()
         }
     }
 
@@ -150,27 +161,29 @@ class DistributedGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        Log.v(TAG, "DistributedGameActivity.onCreate()")
+
         val challenge: ChallengeInfo = intent.extras?.getParcelable(ACCEPTED_CHALLENGE_EXTRA)
             ?: throw IllegalArgumentException("Mandatory extra $ACCEPTED_CHALLENGE_EXTRA not present")
 
-        val player: Player = intent.extras?.getParcelable(PLAYER_EXTRA)
-            ?: throw IllegalArgumentException("Mandatory extra $PLAYER_EXTRA not present")
+        val localPlayer: Player = intent.extras?.getParcelable(DGA_LOCAL_PLAYER_EXTRA)
+            ?: throw IllegalArgumentException("Mandatory extra $DGA_LOCAL_PLAYER_EXTRA not present")
+
+        val nextPlayer: Player = intent.extras?.getParcelable(DGA_TURN_PLAYER_EXTRA)
+            ?: throw IllegalArgumentException("Mandatory extra $DGA_TURN_PLAYER_EXTRA not present")
 
         viewModel = getViewModel(DGAME_STATE_KEY) {
             savedInstanceState?.getParcelable(DGAME_STATE_KEY) ?: DistributedGameViewModel(
                 challenge,
-                player,
-                MutableLiveData(Game(turn = Player.P1))
+                localPlayer,
+                MutableLiveData(Game(turn = nextPlayer))
             )
         }
 
         viewModel.initialize(application)
         viewModel.game.observe(this) {
             updateUI()
-            updateBoard()
         }
-
-        initBoardView()
 
         startButton.setOnClickListener {
             viewModel.start(application)
@@ -179,10 +192,6 @@ class DistributedGameActivity : AppCompatActivity() {
         forfeitButton.setOnClickListener {
             viewModel.forfeit(application)
         }
-
-        Log.v(TAG, "DistributedGameActivity.onCreate() received player $player and " +
-                "local player is ${viewModel.localPlayer} and player to move is ${viewModel.game.value?.nextTurn}")
-
     }
 
     /**
@@ -195,9 +204,9 @@ class DistributedGameActivity : AppCompatActivity() {
         if (!isFinishing) {
             serviceIntent = Intent(this, DistributedGameStateListener::class.java).also {
                 val info: ChallengeInfo? = intent.extras?.getParcelable(ACCEPTED_CHALLENGE_EXTRA)
-                it.putExtra(CHALLENGE_EXTRA, info)
-                    .putExtra(LOCAL_PLAYER_EXTRA, viewModel.localPlayer as Parcelable)
-                    .putExtra(TURN_PLAYER_EXTRA, viewModel.game.value?.nextTurn as Parcelable)
+                it.putExtra(DGSL_CHALLENGE_EXTRA, info)
+                    .putExtra(DGSL_LOCAL_PLAYER_EXTRA, viewModel.localPlayer as Parcelable)
+                    .putExtra(DGSL_TURN_PLAYER_EXTRA, viewModel.game.value?.nextTurn as Parcelable)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(serviceIntent)
