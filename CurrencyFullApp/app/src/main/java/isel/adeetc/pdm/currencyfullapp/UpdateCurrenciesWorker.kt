@@ -8,7 +8,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import isel.adeetc.pdm.currencyfullapp.model.syncSaveTodayQuotesFromDTO
 import isel.adeetc.pdm.currencyfullapp.network.syncFetchTodayQuotes
 
@@ -46,10 +50,28 @@ class UpdateQuotesWorker(context : Context, params : WorkerParameters)
             val quotes = syncFetchTodayQuotes(app)
             syncSaveTodayQuotesFromDTO(app, app.db, quotes)
             sendNotification(app)
-            Result.SUCCESS
+            Result.success()
         }
         catch (error: VolleyError) {
-            if (canRecover(error)) Result.RETRY else Result.FAILURE
+            if (canRecover(error)) Result.retry() else Result.failure()
+        }
+    }
+}
+
+
+class SomeWorker(ctx: Context, args: WorkerParameters) : Worker(ctx, args) {
+    private val queue = Volley.newRequestQueue(ctx)
+    private fun canRecover(error: VolleyError): Boolean { /* some implementation */ return error.networkResponse != null }
+    override fun doWork(): Result {
+        return try {
+            queue.add(StringRequest(Request.Method.GET, "www.example.com",
+                    Response.Listener<String> { /* process response */ },
+                    Response.ErrorListener { throw it }
+            ))
+            Result.success()
+        }
+        catch (error: VolleyError) {
+            if (canRecover(error)) Result.retry() else Result.failure()
         }
     }
 }

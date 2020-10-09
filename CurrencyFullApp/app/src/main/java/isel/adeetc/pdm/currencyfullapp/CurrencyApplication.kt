@@ -39,7 +39,7 @@ class CurrencyApplication : Application() {
 
     private fun scheduleDBUpdate() {
 
-        val updateRequest = PeriodicWorkRequestBuilder<UpdateQuotesWorker>(
+        val updateRequest = PeriodicWorkRequestBuilder<SomeWorker>(
                 1, TimeUnit.DAYS)
                 .setConstraints(Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.UNMETERED)
